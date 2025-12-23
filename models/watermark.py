@@ -31,11 +31,12 @@ class InfillModel:
                                     dir_=dirname)
         else:
             self.logger = getLogger("INFILL-WATERMARK")
-        
-        if torch.has_mps:
-            self.device = "mps"
-        elif cuda.is_available():
+
+        # Select device
+        if torch.cuda.is_available():
             self.device = "cuda"
+        elif torch.backends.mps.is_available():
+            self.device = "mps"
         else:
             self.device = "cpu"
 
@@ -140,8 +141,8 @@ class InfillModel:
         avg_num_cand /= len(mask_idx_token)
 
         return agg_cwi, agg_probs, mask_idx_pt, inputs
-        
-        
+
+
     def generate_candidate_sentence(self, agg_cwi, agg_probs, mask_idx_pt, tokenized_pt):
         candidate_texts = None
         candidate_text_jp = []
@@ -374,6 +375,3 @@ if __name__ == "__main__":
     nli_score = torch.mean(torch.tensor(model.metric['entail_score'])).item()
     num_subs = torch.mean(torch.tensor(model.metric['num_subs'], dtype=float)).item()
     logger.info(f"After training: {nli_score, num_subs}")
-
-
-

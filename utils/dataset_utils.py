@@ -167,6 +167,7 @@ def get_result_txt(result_txt, sep='\t'):
     with open(f"{result_txt}", "r") as reader:
         for line in reader:
             line = line.split(sep)
+
             if len(line) == 7:
                 # corpus idx
                 line[0] = int(line[0])
@@ -188,6 +189,7 @@ def get_result_txt(result_txt, sep='\t'):
                     line[6] = []
             else:
                 line = ["eos"] * 7
+
             results.append(line)
     return results
 

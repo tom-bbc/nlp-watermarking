@@ -5,6 +5,4 @@ datasets
 sentence-transformers
 yake
 accelerate
-
-#sentencepiece
-#textattack
+nltk
